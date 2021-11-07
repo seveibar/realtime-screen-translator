@@ -1,17 +1,0 @@
-Generated with tesseract --psm 12 --oem 2 -l chi_tra ./example-image.png example-out
-﹒
-
-保 存 遊 戴
-
-| 力
-
-功 i
-
-製 作 團 隊
-
-關 閉 回 到 主 選 單
-
-131
-
-| o 深 串 剛
-
