@@ -18,14 +18,13 @@ const Screen = ({ blocks, avgResponseTime }) => {
           style={{
             color: "red",
             fontSize: 24,
-            left: block.left,
-            top: block.top,
-            textShadow: "0px 0px 4px black",
+            left: window.innerWidth / 4 + block.left,
+            top: window.innerHeight / 4 + block.top - 60,
             position: "absolute",
           }}
           key={i}
         >
-          <div>{block.pinyin}</div>
+          <div style={{ opacity: 0.75 }}>{block.pinyin}</div>
           <div>{block.translation}</div>
         </div>
       ))}
@@ -42,13 +41,11 @@ let avgResponseTime = 0
 let lastSendTime = Date.now()
 
 ipcRenderer.on("blocks", (e, blocks) => {
-  console.log(blocks)
   avgResponseTime = (avgResponseTime * 9 + Date.now() - lastSendTime) / 10
   ReactDOM.render(
     <Screen blocks={blocks} avgResponseTime={avgResponseTime} />,
     document.getElementById("root")
   )
-  lastSendTime = Date.now()
   ipcRenderer.send("get-blocks")
 })
 
