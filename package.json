@@ -4,18 +4,23 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "tsup main.ts rt.ts --out-dir dist && cp ./index.html ./dist/index.html && electron dist/main.js"
+    "start": "tsup main.ts browser-script.tsx --out-dir dist && cp ./index.html ./dist/index.html && electron dist/main.js"
   },
   "dependencies": {
+    "@google-cloud/translate": "^6.3.1",
     "electron": "^15.3.0",
     "hanzi-to-pinyin": "^1.86.0",
     "node-tesseract-ocr": "^2.2.1",
     "papaparse": "^5.3.1",
     "prompts": "^2.4.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "screenshot-desktop": "^1.12.7",
     "tempy": "1",
     "translate": "^1.4.0"
   },
   "devDependencies": {
+    "@types/react": "^17.0.34",
     "esbuild": "^0.13.12",
     "esbuild-runner": "^2.2.1",
     "tsup": "^5.6.0"

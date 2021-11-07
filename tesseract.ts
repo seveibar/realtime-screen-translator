@@ -2,7 +2,7 @@ import { exec } from "child_process"
 import tempy from "tempy"
 import Papa from "papaparse"
 import fs from "fs/promises"
-import translate from "translate"
+import translate from "./translate"
 import convertHanziToPinyin from "hanzi-to-pinyin"
 
 type RChar = {
@@ -31,7 +31,7 @@ type Block = {
   chars: Array<RChar>
 }
 
-async function tesseract(inputFilePath, opts) {
+export async function tesseract(inputFilePath, opts) {
   const outputFilePath = tempy.file({ extension: "tsv" })
   await new Promise((resolve, reject) => {
     exec(
@@ -96,13 +96,12 @@ async function tesseract(inputFilePath, opts) {
   return { chars: recognizedChars, blocks }
 }
 
-async function main() {
-  const { blocks } = await tesseract("./example-image.png", {
+export async function getSentenceBlocksFromImage(imageFilePath) {
+  const { blocks } = await tesseract(imageFilePath, {
     charFilter: (c) => /\p{sc=Han}/u.test(c),
   })
   const translationResult = (
     await translate(blocks.map((b) => b.text).join("."), {
-      from: "zh",
       to: "en",
     })
   ).split(".")
@@ -117,12 +116,19 @@ async function main() {
     )
   }
 
-  console.table(
-    blocks.map((b) => ({
-      text: b.text,
-      pinyin: b.pinyin,
-      translation: b.translation,
-    }))
-  )
+  return blocks
 }
-main()
+
+if (!module.parent) {
+  ;(async () => {
+    const blocks = await getSentenceBlocksFromImage("./example-image.png")
+    console.table(
+      blocks.map((b) => ({
+        text: b.text,
+        "x,y": [b.left, b.top],
+        pinyin: b.pinyin,
+        translation: b.translation,
+      }))
+    )
+  })()
+}
