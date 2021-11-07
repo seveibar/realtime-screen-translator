@@ -15,5 +15,9 @@ so I can try to learn chinese while playing.
 
 ## How it works
 
-I create a transparent electron window to display text. We take screenshots of
-the game window
+1. A transparent electron window to displays text.
+2. Take a screenshot the game window
+3. Run the screenshot through tesseract OCR (neural network)
+4. Translate characters via google translate api
+5. Convert characters to pinyin using [hanzi-to-pinyin](https://www.npmjs.com/package/hanzi-to-pinyin)
+6. Display contents on transparent electron window
